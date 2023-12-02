@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>My fist Webstie</title>
+    <link rel="stylesheet" type="text/css" href="css/content.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://www.parsecdn.com/js/parse-1.4.2.min.js"></script>
+</head>
+<header>
+    <h1>Welcom to my Website</h1>
+    <hr>
+    <nav>
+        <ul class="navigation">
+            <li> <a href="index3.html">Home</a></li>
+            <li> <a href="content.html ">Services</a></li>
+            <li> <a href="ContactUs.html">Contact Us</a></li>
+        </ul>
+    </nav>
+    <hr>
+</header>
+
+<body>
+    <h1>Gundam Model Expo</h1>
+
+    <div>
+        <table id='table'>
+            <!-- HEADING FORMATION -->
+            <tr>
+                <th>Location</th>
+                <th>Date</th>
+            </tr>
+        </table>
+    </div>
+    <footer>
+
+        <form class="form-logout" role="form">
+            <input type="submit" value="Logout" id="logout" class="btn btn-primary btn-lg">
+        </form>
+        <hr>
+        <div class="footer">
+
+            <div class="row">
+                <a href="https://www.facebook.com/jason.chiang.902819"><i class="fa fa-facebook"></i></a>
+                <a href="https://www.instagram.com/jasonch001/"><i class="fa fa-instagram"></i></a>
+            </div>
+        </div>
+        <hr>
+    </footer>
+    <script>
+        $(document).ready(function() {
+
+            // FETCHING DATA FROM JSON FILE 
+            $.getJSON("content.json",
+                function(data) {
+                    var student = '';
+
+                    // ITERATING THROUGH OBJECTS 
+                    $.each(data, function(key, value) {
+
+                        //CONSTRUCTION OF ROWS HAVING 
+                        // DATA FROM JSON OBJECT 
+                        student += '<tr>';
+                        student += '<td>' +
+                            value.where + '</td>';
+
+                        student += '<td>' +
+                            value.time + '</td>';
+                        student += '</tr>';
+                    });
+
+                    //INSERTING ROWS INTO TABLE  
+                    $('#table').append(student);
+                });
+        });
+
+        jQuery(document).ready(function() {
+
+            Parse.$ = jQuery;
+            Parse.initialize("...", "...");
+
+            $('.form-logout').on('submit', function(e) {
+                // Prevent Default Submit Event
+                e.preventDefault();
+
+                console.log("Performing submit");
+
+                //logout current user
+                if (Parse.User.current()) {
+                    Parse.User.logOut();
+
+                    // check if really logged out
+                    if (Parse.User.current())
+                        console.log("Failed to log out!");
+                }
+
+                // do redirect
+                //window.location.replace("Sign_In.html");
+                // or
+                window.location.href = "ContactUs.html";
+            });
+        });
+
+    </script>
+</body>
+
+</html>
